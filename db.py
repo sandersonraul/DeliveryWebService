@@ -27,7 +27,15 @@ def insert(args=()):
     cur.execute(sql, args)
     get_db().commit()
     return cur.lastrowid
-    
+
+def insert_pedidos(args=()):
+    sql = ''' INSERT INTO pedidos(nome, status_pedido, data_de_criacao, data_de_atualizacao, rua, numero, bairro)
+              VALUES(?,?,?,?,?,?,?) '''
+    cur = get_db().cursor()
+    cur.execute(sql, args)
+    get_db().commit()
+    return cur.lastrowid
+
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
     rv = [dict((cur.description[i][0], value) \
