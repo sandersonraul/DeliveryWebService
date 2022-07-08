@@ -42,9 +42,46 @@ def add_pedidos():
                 pedido['bairro']
             )
         )
-#        (nome, status_pedido, data_de_criacao, data_de_atualizacao,rua,numero,bairro)
         return {"id":id}, 201
     return {"error": "Request must be JSON"}, 415
+
+@app.route("/couriers",methods=['POST'])
+def add_courier():
+    if request.is_json:
+        courier = request.get_json()
+        id = db.insert_courier(
+            (
+            courier['name'],
+            courier['email'],
+            courier['password'],
+            courier['cpf']
+            )
+        )
+        return {"id":id}, 201
+    return {"error": "Request must be JSON"}, 415
+
+@app.route("/couriers",methods=['GET'])
+def get_couriers():
+    couriers = db.query_db('select * from couriers')
+    return jsonify(couriers),200
+@app.route("/addresses",methods=['POST'])
+def add_address():
+    if request.is_json:
+        address = request.get_json()
+        id = db.insert_address(
+            (
+            address['city'],
+            address['state_a']
+            )
+        )
+        return {"id":id}, 201
+    return {"error": "Request must be JSON"}, 415
+
+@app.route("/addresses",methods=['GET'])
+def get_addresses():
+    addresses = db.query_db('select * from addresses')
+    return jsonify(addresses),200
+
 if __name__ == '__main__':
     init_db = False
     
