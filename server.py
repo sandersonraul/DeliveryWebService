@@ -22,6 +22,42 @@ def add_restaurante():
         return {"id":id}, 201
     return {"error": "Request must be JSON"}, 415
 
+@app.route("/users",methods=['GET'])
+def get_users():
+    users = db.query_db('select * from users')
+    return jsonify(users),200
+
+@app.route("/users",methods=['POST'])
+def add_user():
+    if request.is_json:
+        user = request.get_json()
+        id = db.insert_user(
+            (
+            user['name'],
+            user['email'],
+            user['password'],
+            user['cpf']
+            )
+        )
+        return {"id":id}, 201
+    return {"error": "Request must be JSON"}, 415
+
+@app.route("/users/<int:id>", methods=["DELETE"])
+def delete_address(id):
+    db.query_db(f'DELETE from users WHERE id= {id}')
+    
+    return 'ok', 200  
+@app.route("/users/<int:id>",methods=['GET'])
+def get_users_byid(id):
+    address = db.query_db(f'select * from users where id = {id}')
+    return jsonify(address),200
+
+@app.route("/users/<int:id>", methods=["PUT"])
+def update_user(id):
+    users = request.get_json()
+    db.query_db(f'UPDATE users SET name = "{users["name"]}",email = "{users["email"]}", password = "{users["password"]}", cpf = "{users["cpf"]}" where id = {id}')
+    return 'ok', 200
+
 @app.route("/pedidos",methods=['GET'])
 def get_pedidos():
     pedidos = db.query_db('select * from pedidos')
