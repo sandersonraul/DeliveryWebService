@@ -27,7 +27,15 @@ def insert_restaurantes(args=()):
     cur.execute(sql, args)
     get_db().commit()
     return cur.lastrowid
-    
+
+def insert_user(args=()):
+    sql = ''' INSERT INTO users(name,email,password,cpf)
+              VALUES(?,?,?,?) '''
+    cur = get_db().cursor()
+    cur.execute(sql, args)
+    get_db().commit()
+    return cur.lastrowid    
+
 
 def insert_pedidos(args=()):
     sql = ''' INSERT INTO pedidos(nome, status_pedido, data_de_criacao, data_de_atualizacao, rua, numero, bairro)
