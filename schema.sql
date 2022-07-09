@@ -2,40 +2,54 @@ DROP TABLE IF EXISTS restaurantes;
 
 CREATE TABLE restaurantes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nome_fantasia VARCHAR(30) NOT NULL,
+  nome_fantasia VARCHAR(50) NOT NULL,
   cnpj VARCHAR(50) NOT NULL,
   email VARCHAR(50),
   ativo BOOLEAN NOT NULL,
   endereco_id INTERGER,
-  rua VARCHAR(30),
-  numero INTEGER,
-  bairro VARCHAR(30),
-  created_at CURRENT_TIMESTAMP,
-  updated_at CURRENT_TIMESTAMP
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(endereco_id) REFERENCES addresses(id)
 );
-
 
 DROP TABLE IF EXISTS pedidos;
 
 CREATE TABLE pedidos (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nome VARCHAR(30) UNIQUE NOT NULL,
-  status_pedido Boolean NOT NULL,
-  data_de_criacao VARCHAR(30) NOT NULL,
-  data_de_atualizacao VARCHAR(30) NOT NULL,
-  rua VARCHAR(30) NOT NULL,
-  numero INTEGER NOT NULL,
-  bairro VARCHAR(30) NOT NULL
+  descr VARCHAR(50) UNIQUE NOT NULL,
+  valor DECIMAL(17,2) NULL DEFAULT NULL,
+  restaurant_id INTEGER,
+  endereco_id INTERGER,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(restaurant_id) REFERENCES restaurantes(id)
+);
+
+DROP TABLE IF EXISTS delivery;
+
+CREATE TABLE delivery (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  pedido_id INTEGER NOT NULL,
+  status VARCHAR(30),
+  couriers_id INTEGER NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(pedido_id) REFERENCES pedidos(id),
+  FOREIGN KEY(couriers_id) REFERENCES couriers(id)
 );
 
 DROP TABLE IF EXISTS addresses;
 
 CREATE TABLE addresses (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  city VARCHAR(30) NOT NULL,
-  state_a VARCHAR(30) NOT NULL
+  city VARCHAR(50) NOT NULL,
+  state_a VARCHAR(30) NOT NULL,
+  street VARCHAR(50),
+  number INTEGER,
+  neighborhood VARCHAR(50),
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
 
 DROP TABLE IF EXISTS couriers;
 
@@ -44,5 +58,7 @@ CREATE TABLE couriers (
   name VARCHAR(30) NOT NULL,
   email VARCHAR(30) UNIQUE NOT NULL,
   password VARCHAR(30) NOT NULL,
-  cpf VARCHAR(30) UNIQUE NOT NULL
+  cpf VARCHAR(30) UNIQUE NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
