@@ -70,9 +70,7 @@ def add_pedidos():
         id = db.insert_pedidos(
             (
                 pedido['nome'],
-                pedido['status_pedido'], 
-                pedido['data_de_criacao'],
-                pedido['data_de_atualizacao'], 
+                pedido['status'], 
                 pedido['rua'], 
                 pedido['numero'], 
                 pedido['bairro']
