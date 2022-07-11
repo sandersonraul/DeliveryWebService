@@ -20,8 +20,8 @@ def get_db():
 
     return g.db
 
-def insert_restaurantes(args=()):
-    sql = ''' INSERT INTO restaurantes(nome_fantasia, cnpj, ativo )
+def insert_restaurants(args=()):
+    sql = ''' INSERT INTO restaurants(name, cnpj, address_id )
               VALUES(?,?,?) '''
     cur = get_db().cursor()
     cur.execute(sql, args)
@@ -36,18 +36,17 @@ def insert_user(args=()):
     get_db().commit()
     return cur.lastrowid    
 
-
-def insert_pedidos(args=()):
-    sql = ''' INSERT INTO pedidos(nome, status, rua, numero, bairro)
-              VALUES(?,?,?,?,?,?,?) '''
+def insert_orders(args=()):
+    sql = ''' INSERT INTO orders(descr, value, status, restaurant_id, address_id)
+              VALUES(?,?,?,?,?) '''
     cur = get_db().cursor()
     cur.execute(sql, args)
     get_db().commit()
     return cur.lastrowid
 
 def insert_address(args=()):
-    sql = ''' INSERT INTO addresses(city,state_a)
-              VALUES(?,?) '''
+    sql = ''' INSERT INTO addresses(city, state_a, street, number, neighborhood)
+              VALUES(?,?,?,?,?) '''
     cur = get_db().cursor()
     cur.execute(sql, args)
     get_db().commit()
@@ -56,6 +55,14 @@ def insert_address(args=()):
 def insert_courier(args=()):
     sql = ''' INSERT INTO couriers(name,email,password,cpf)
               VALUES(?,?,?,?) '''
+    cur = get_db().cursor()
+    cur.execute(sql, args)
+    get_db().commit()
+    return cur.lastrowid
+
+def insert_delivery(args=()):
+    sql = ''' INSERT INTO delivery(oder_id, status, couriers_id)
+              VALUES(?,?,?) '''
     cur = get_db().cursor()
     cur.execute(sql, args)
     get_db().commit()
