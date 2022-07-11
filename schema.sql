@@ -1,39 +1,39 @@
-DROP TABLE IF EXISTS restaurantes;
+DROP TABLE IF EXISTS restaurants;
 
-CREATE TABLE restaurantes (
+CREATE TABLE restaurants (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nome_fantasia VARCHAR(50) NOT NULL,
+  name VARCHAR(50) NOT NULL,
   cnpj VARCHAR(50) NOT NULL,
   email VARCHAR(50),
-  ativo BOOLEAN NOT NULL,
-  endereco_id INTERGER,
+  active BOOLEAN NOT NULL,
+  address_id INTERGER DEFAULT 1,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY(endereco_id) REFERENCES addresses(id)
+  FOREIGN KEY(address_id) REFERENCES addresses(id)
 );
 
-DROP TABLE IF EXISTS pedidos;
+DROP TABLE IF EXISTS orders;
 
-CREATE TABLE pedidos (
+CREATE TABLE orders (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   descr VARCHAR(50) UNIQUE NOT NULL,
-  valor DECIMAL(17,2) NULL DEFAULT NULL,
+  value DECIMAL(17,2) NULL DEFAULT NULL,
   status VARCHAR(15) NOT NULL,
   restaurant_id INTEGER,
-  endereco_id INTERGER,
-  FOREIGN KEY(restaurant_id) REFERENCES restaurantes(id)
+  address_id INTERGER,
+  FOREIGN KEY(restaurant_id) REFERENCES restaurants(id)
 );
 
 DROP TABLE IF EXISTS delivery;
 
 CREATE TABLE delivery (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  pedido_id INTEGER NOT NULL,
+  order_id INTEGER NOT NULL,
   status VARCHAR(30),
   couriers_id INTEGER NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY(pedido_id) REFERENCES pedidos(id),
+  FOREIGN KEY(order_id) REFERENCES orders(id),
   FOREIGN KEY(couriers_id) REFERENCES couriers(id)
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE users (
   name VARCHAR(30) NOT NULL,
   email VARCHAR(30) UNIQUE NOT NULL,
   password VARCHAR(30) NOT NULL,
-  endereco_id INTEGER,
+  address_id INTEGER,
   cpf VARCHAR(30) UNIQUE NOT NULL,
-  FOREIGN KEY(endereco_id) REFERENCES addresses(id)
+  FOREIGN KEY(address_id) REFERENCES addresses(id)
 );
