@@ -5,8 +5,8 @@ CREATE TABLE restaurants (
   name VARCHAR(50) NOT NULL,
   cnpj VARCHAR(50) NOT NULL,
   email VARCHAR(50),
-  active BOOLEAN NOT NULL,
-  address_id INTERGER DEFAULT 1,
+  active BOOLEAN NOT NULL DEFAULT 1,
+  address_id INTERGER NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(address_id) REFERENCES addresses(id)
