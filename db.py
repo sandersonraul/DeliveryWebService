@@ -21,9 +21,10 @@ def get_db():
     return g.db
 
 def insert_restaurants(args=()):
-    sql = ''' INSERT INTO restaurants(name, cnpj, address_id )
-              VALUES(?,?,?) '''
+    sql = ''' INSERT INTO restaurants(name, cnpj, email, address_id )
+              VALUES(?,?,?,?) '''
     cur = get_db().cursor()
+    cur.execute("PRAGMA foreign_keys=ON")
     cur.execute(sql, args)
     get_db().commit()
     return cur.lastrowid
@@ -32,6 +33,7 @@ def insert_user(args=()):
     sql = ''' INSERT INTO users(name,email,password,cpf)
               VALUES(?,?,?,?) '''
     cur = get_db().cursor()
+    cur.execute("PRAGMA foreign_keys=ON")
     cur.execute(sql, args)
     get_db().commit()
     return cur.lastrowid    
@@ -40,6 +42,7 @@ def insert_orders(args=()):
     sql = ''' INSERT INTO orders(descr, value, status, restaurant_id, address_id)
               VALUES(?,?,?,?,?) '''
     cur = get_db().cursor()
+    cur.execute("PRAGMA foreign_keys=ON")
     cur.execute(sql, args)
     get_db().commit()
     return cur.lastrowid
@@ -48,6 +51,7 @@ def insert_address(args=()):
     sql = ''' INSERT INTO addresses(city, state_a, street, number, neighborhood)
               VALUES(?,?,?,?,?) '''
     cur = get_db().cursor()
+    cur.execute("PRAGMA foreign_keys=ON")
     cur.execute(sql, args)
     get_db().commit()
     return cur.lastrowid
@@ -56,6 +60,7 @@ def insert_courier(args=()):
     sql = ''' INSERT INTO couriers(name,email,password,cpf)
               VALUES(?,?,?,?) '''
     cur = get_db().cursor()
+    cur.execute("PRAGMA foreign_keys=ON")
     cur.execute(sql, args)
     get_db().commit()
     return cur.lastrowid
@@ -64,6 +69,7 @@ def insert_delivery(args=()):
     sql = ''' INSERT INTO delivery(oder_id, status, couriers_id)
               VALUES(?,?,?) '''
     cur = get_db().cursor()
+    cur.execute("PRAGMA foreign_keys=ON")
     cur.execute(sql, args)
     get_db().commit()
     return cur.lastrowid

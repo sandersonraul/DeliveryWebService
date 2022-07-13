@@ -14,12 +14,12 @@ def get_restaurant_by_id(id):
     restaurant = db.query_db(f"select * from restaurants where id = {id}")
     return jsonify(restaurant), 200
 
-@app.route("/restaurantes/<int:id>", methods=["PUT"])
+@app.route("/restaurants/<int:id>", methods=["PUT"])
 def update_restaurante(id):
     if request.is_json:
         res = request.get_json()
-        db.query_db(f'update restaurantes set name = "{res["name"]}", cnpj = "{res["cnpj"]}", active = "{res["active"]}", address_id = "{res["address_id"]}" where id = {id}')
-        return 'ok', 200
+        db.query_db(f'update restaurants set name = "{res["name"]}", cnpj = "{res["cnpj"]}", email = "{res["email"]}", active = "{res["active"]}", address_id = "{res["address_id"]}" where id = {id}')
+        return 'updated successfully', 200
     return {"error": "Request must be JSON"}, 415
 
 @app.route("/restaurants",methods=['POST'])
@@ -30,11 +30,17 @@ def add_restaurante():
             (
                 restaurante['name'],
                 restaurante['cnpj'], 
+                restaurante['email'],
                 restaurante['address_id'],
             )
         )
         return {"id":id}, 201
     return {"error": "Request must be JSON"}, 415
+
+@app.route("/restaurants/<int:id>",methods=["DELETE"])
+def delete_restaurant(id):
+    db.query_db(f"DELETE FROM restaurants WHERE id = {id}")
+    return 'Deleted successfully',200
 
 @app.route("/users",methods=['GET'])
 def get_users():
@@ -188,7 +194,7 @@ def delete_address(id):
     return jsonify(address),200
 
 if __name__ == '__main__':
-    init_db = True
+    init_db = False
     
     db.init_app(app)
     
