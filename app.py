@@ -94,9 +94,9 @@ def add_orders():
         order = request.get_json()
         id = db.insert_orders(
             (
-                order['descr'],
-                order['status'], 
+                order['descr'], 
                 order['value'],
+                order['restaurant_id'],
                 order['address_id'],    
             )
         )
@@ -192,6 +192,39 @@ def get_address_by_id(id):
 def delete_address(id):
     address = db.query_db(f"delete from addresses where id = {id}")
     return jsonify(address),200
+
+@app.route("/delivery",methods=['GET'])
+def get_delivery():
+    delivery = db.query_db('select * from delivery')
+    return jsonify(delivery),200 
+
+@app.route("/delivery/<int:id>",methods=["GET"])
+def get_delivery_by_id(id):
+    delivery = db.query_db(f"select * from delivery where id = {id}")
+    return jsonify(delivery),200  
+
+@app.route("/delivery", methods=["POST"])
+def add_delivery():
+    if request.is_json:
+        delivery = request.get_json()
+        id = db.insert_delivery(
+            (
+            delivery['order_id'],
+            delivery['courier_id'],
+            )
+        )
+        return {"id":id}, 201
+    return {"error": "Request must be JSON"}, 415
+
+
+@app.route("/delivery/<int:id>", methods=["PUT"])
+def update_delivery(id):
+    if request.is_json:
+        delivery = request.get_json()
+        db.query_db(f'UPDATE delivery set status = "{delivery["status"]}" where id = {id}')
+        return 'Updated successfully', 201
+    return {"error": "Request must be JSON"}, 415
+
 
 if __name__ == '__main__':
     init_db = False

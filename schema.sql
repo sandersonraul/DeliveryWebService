@@ -18,7 +18,6 @@ CREATE TABLE orders (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   descr VARCHAR(50) UNIQUE NOT NULL,
   value DECIMAL(17,2) NULL DEFAULT NULL,
-  status VARCHAR(15) NOT NULL,
   restaurant_id INTEGER,
   address_id INTERGER,
   FOREIGN KEY(restaurant_id) REFERENCES restaurants(id)
@@ -29,12 +28,12 @@ DROP TABLE IF EXISTS delivery;
 CREATE TABLE delivery (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   order_id INTEGER NOT NULL,
-  status VARCHAR(30),
-  couriers_id INTEGER NOT NULL,
+  status VARCHAR(30) DEFAULT 'EM ANDAMENTO',
+  courier_id INTEGER NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(order_id) REFERENCES orders(id),
-  FOREIGN KEY(couriers_id) REFERENCES couriers(id)
+  FOREIGN KEY(courier_id) REFERENCES couriers(id)
 );
 
 DROP TABLE IF EXISTS addresses;

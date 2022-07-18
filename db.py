@@ -39,8 +39,8 @@ def insert_user(args=()):
     return cur.lastrowid    
 
 def insert_orders(args=()):
-    sql = ''' INSERT INTO orders(descr, value, status, restaurant_id, address_id)
-              VALUES(?,?,?,?,?) '''
+    sql = ''' INSERT INTO orders(descr, value , restaurant_id, address_id)
+              VALUES(?,?,?,?) '''
     cur = get_db().cursor()
     cur.execute("PRAGMA foreign_keys=ON")
     cur.execute(sql, args)
@@ -66,8 +66,8 @@ def insert_courier(args=()):
     return cur.lastrowid
 
 def insert_delivery(args=()):
-    sql = ''' INSERT INTO delivery(oder_id, status, couriers_id)
-              VALUES(?,?,?) '''
+    sql = ''' INSERT INTO delivery(order_id, courier_id)
+              VALUES(?,?) '''
     cur = get_db().cursor()
     cur.execute("PRAGMA foreign_keys=ON")
     cur.execute(sql, args)
