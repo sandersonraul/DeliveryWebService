@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import db
-    
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.route("/restaurants",methods=['GET'])
 def get_restaurants():
@@ -102,7 +103,7 @@ def add_orders():
         return {"id":id}, 201
     return {"error": "Request must be JSON"}, 415
 
-@app.route("/oders/<int:id>", methods=['PUT'])
+@app.route("/orders/<int:id>", methods=['PUT'])
 def update_order(id):
     if request.is_json:
         order = request.get_json()
@@ -114,7 +115,7 @@ def update_order(id):
 def delete_order(id):
     db.query_db(f"DELETE FROM orders WHERE id = {id}")
     return 'Deleted successfully',200
-
+ 
 @app.route("/couriers",methods=['POST'])
 def add_courier():
     if request.is_json:
